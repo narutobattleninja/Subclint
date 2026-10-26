@@ -1,0 +1,1397 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07060a" />
+    <title>Dark Node Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Cinzel:wght@500&display=swap"
+    />
+    <link rel="stylesheet" href="hark.css" />
+    <link rel="stylesheet" href="hark-hero.css" />
+    <style>
+      /* Design departure: an always-dark obsidian and gold temple theme, done by retuning the tokens. */
+      :root,
+      :root[data-theme="light"],
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --x-gold: #c9a45c;
+        --x-gold-hi: #e8cf8f;
+        --x-gold-deep: #8a6b2e;
+        --x-obsidian: #08070a;
+        --x-serif: "Cormorant Garamond", "Cormorant", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", Georgia, "Times New Roman", serif;
+        --x-caps: "Cinzel", "Cormorant Garamond", "Noto Serif SC", "Songti SC", Georgia, serif;
+        --text-primary: #efe6d2;
+        --text-secondary: #b3a68c;
+        --text-tertiary: rgb(201 164 92 / 0.45);
+        --fill-primary: #c9a45c;
+        --text-primary-on: #15110a;
+        --fill-primary-on: #08070a;
+        --fill-tertiary: #15120c;
+        --stroke-primary: rgb(201 164 92 / 0.32);
+        --stroke-secondary: rgb(201 164 92 / 0.15);
+        --hover-wash: rgb(201 164 92 / 0.08);
+        --hark-shadow: 0 10px 40px rgb(0 0 0 / 0.6);
+        --hero-surface: transparent;
+        --hero-text: #f3ead6;
+        --hero-text-muted: rgb(243 234 214 / 0.82);
+        --hero-scrim-strong: rgb(8 7 10 / 0.9);
+        --hero-scrim-soft: rgb(8 7 10 / 0.35);
+        --hero-scrim-side: rgb(8 7 10 / 0.6);
+        --hero-glass: rgb(20 16 10 / 0.55);
+        --mat-agent: rgb(20 16 10 / 0.72);
+        --stroke-composer: rgb(201 164 92 / 0.3);
+        --type-display: var(--weight-medium) clamp(46px, 7.5vw, 84px)/1.02 var(--x-serif);
+        --type-title: var(--weight-medium) clamp(30px, 3.6vw, 42px)/1.12 var(--x-serif);
+        --type-heading: var(--weight-bold) 22px/1.2 var(--x-serif);
+        --type-figure: var(--weight-medium) clamp(32px, 3.6vw, 42px)/1.1 var(--x-serif);
+        --x-glow: 0 0 0 1px rgb(201 164 92 / 0.55), 0 18px 50px rgb(201 164 92 / 0.14);
+        --x-glow-gold: 0 0 0 1px rgb(232 207 143 / 0.7), 0 18px 50px rgb(201 164 92 / 0.25);
+      }
+      body {
+        background:
+          radial-gradient(1000px 640px at 50% -8%, rgb(201 164 92 / 0.1), transparent 70%),
+          radial-gradient(800px 600px at 100% 35%, rgb(138 107 46 / 0.08), transparent 70%),
+          radial-gradient(800px 600px at 0% 70%, rgb(138 107 46 / 0.06), transparent 70%),
+          linear-gradient(180deg, #07060a 0%, #0b0a08 50%, #0d0b08 100%),
+          var(--fill-primary-on);
+        background-color: var(--fill-primary-on);
+      }
+      html { background-color: #08070a; }
+      /* Fine grain over the obsidian */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.06;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 0.9  0 0 0 0 0.7  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+      }
+      .nav {
+        --mat-inverse: rgb(12 10 7 / 0.82);
+        --fill-segment: #1a160e;
+        --text-secondary-on: #c4b593;
+        --text-primary-on: #f3ead6;
+        --fill-primary-on: #c9a45c;
+        --text-primary: #15110a;
+        --stroke-primary-on: rgb(201 164 92 / 0.3);
+      }
+      .theme-btn { display: none; }
+      .section { --x-line: rgb(201 164 92 / 0.22); }
+
+      /* Gold eyebrows with ornaments: — ✦ THE STORY ✦ — */
+      .x-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font: var(--weight-medium) 13px/1.3 var(--x-caps);
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        font-variant: small-caps;
+        color: var(--x-gold);
+      }
+      .x-eyebrow::before,
+      .x-eyebrow::after {
+        content: "✦";
+        font-size: 10px;
+        letter-spacing: 0;
+        color: var(--x-gold);
+        background: linear-gradient(var(--x-gold-deep), var(--x-gold-deep)) no-repeat;
+        background-size: 28px 1px;
+      }
+      .x-eyebrow::before { padding-left: 38px; background-position: left center; }
+      .x-eyebrow::after { padding-right: 38px; background-position: right center; }
+      :lang(zh-Hans) .x-eyebrow { letter-spacing: 0.3em; font-size: 14px; }
+      .head h2 { letter-spacing: 0.01em; }
+      #home .hero__eyebrow {
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+      }
+      #home h1 { letter-spacing: 0.04em; text-shadow: 0 2px 30px rgb(0 0 0 / 0.6); }
+      .x-keeper { font: italic var(--weight-medium) clamp(19px, 2vw, 23px)/1.3 var(--x-serif); color: var(--x-gold-hi); letter-spacing: 0.02em; }
+      :lang(zh-Hans) .x-keeper { font-style: normal; letter-spacing: 0.12em; }
+
+      /* Language toggle, matching the nav's segment */
+      .x-lang { flex: none; display: flex; align-items: center; border-radius: var(--r-pill); background: var(--fill-segment); }
+      .x-lang button {
+        min-height: 36px;
+        padding: 8px 12px;
+        border: 0;
+        border-radius: var(--r-pill);
+        background: transparent;
+        color: var(--text-secondary-on);
+        font: var(--type-label);
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      .x-lang button:hover { color: var(--text-primary-on); }
+      .x-lang button[aria-pressed="true"] { background: var(--fill-primary-on); color: var(--text-primary); }
+      .x-lang__sep { color: var(--text-secondary-on); font: var(--type-label); }
+      @media (max-width: 599px) { .x-lang button { min-height: var(--tap); padding: 8px 10px; } }
+
+      .x-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: var(--tap);
+        padding: 10px 18px;
+        border-radius: var(--r-s);
+        background: linear-gradient(135deg, var(--x-gold-hi) 0%, var(--x-gold) 48%, #a8823f 100%), var(--x-gold);
+        background-color: var(--x-gold);
+        color: var(--text-primary-on);
+        font: var(--type-label);
+        letter-spacing: 0.04em;
+        text-decoration: none;
+        border: 1px solid var(--x-gold-hi);
+        cursor: pointer;
+        transition: box-shadow var(--dur-quick) ease, filter var(--dur-quick) ease;
+      }
+      .x-cta:hover { box-shadow: 0 0 0 1px var(--x-gold-hi), 0 10px 36px rgb(201 164 92 / 0.35); filter: brightness(1.06); }
+      .x-ghost {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: var(--tap);
+        padding: 10px 18px;
+        border-radius: var(--r-s);
+        background: transparent;
+        color: var(--x-gold-hi);
+        font: var(--type-label);
+        letter-spacing: 0.04em;
+        text-decoration: none;
+        border: 1px solid var(--x-gold);
+        cursor: pointer;
+        transition: box-shadow var(--dur-quick) ease, background var(--dur-quick) ease;
+      }
+      .x-ghost:hover { background: rgb(201 164 92 / 0.08); box-shadow: 0 0 24px rgb(201 164 92 / 0.18); }
+      .x-ghost[disabled] { cursor: not-allowed; color: var(--x-gold); border-color: rgb(201 164 92 / 0.6); }
+      .x-ghost[disabled]:hover { background: transparent; box-shadow: none; }
+
+      .x-progress { display: grid; gap: 6px; max-width: 320px; font: var(--type-tag); color: var(--hero-text-muted); }
+      .x-progress__row { display: flex; justify-content: space-between; gap: 12px; }
+      .x-progress__row b { color: var(--x-gold-hi); font-variant-numeric: tabular-nums; }
+      .x-progress__bar { height: 4px; border-radius: var(--r-pill); background: rgb(201 164 92 / 0.18); overflow: hidden; }
+      .x-progress__bar span { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--x-gold-deep), var(--x-gold-hi)); }
+
+      /* Art that emerges from the dark: no frames, a soft radial fade into the page */
+      .x-strip__track img,
+      .x-art__card img,
+      .x-mystery img,
+      .x-post__head img {
+        -webkit-mask-image: radial-gradient(closest-side, #000 50%, rgb(0 0 0 / 0.6) 72%, rgb(0 0 0 / 0.18) 88%, transparent 100%);
+        mask-image: radial-gradient(closest-side, #000 50%, rgb(0 0 0 / 0.6) 72%, rgb(0 0 0 / 0.18) 88%, transparent 100%);
+      }
+
+      /* Lineup strip */
+      .x-strip { margin: 0; container-type: inline-size; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+      .x-strip__track { display: flex; gap: 0; width: max-content; animation: x-pan 32s ease-in-out infinite alternate; }
+      .x-strip:hover .x-strip__track, .x-strip:active .x-strip__track { animation-play-state: paused; }
+      .x-strip__track img { width: clamp(170px, 40vw, 270px); aspect-ratio: 1; object-fit: cover; margin-inline: -10px; }
+      .x-strip figcaption { font: italic var(--weight-medium) 18px/1.3 var(--x-serif); color: var(--x-gold-hi); text-align: center; padding: 8px 4px 0; }
+      :lang(zh-Hans) .x-strip figcaption { font-style: normal; }
+      @keyframes x-pan { from { transform: translateX(0); } to { transform: translateX(calc(-100% + 100cqw)); } }
+      @media (prefers-reduced-motion: reduce) {
+        .x-strip { overflow-x: auto; }
+        .x-strip__track { animation: none; }
+      }
+
+      /* Series art cards */
+      .x-art { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 28px 20px; }
+      .x-art__card {
+        position: relative;
+        isolation: isolate;
+        display: grid;
+        align-content: start;
+        justify-items: center;
+        gap: 6px;
+        text-align: center;
+      }
+      .x-art__card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        aspect-ratio: 1;
+        z-index: -1;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, rgb(232 207 143 / 0.34), rgb(201 164 92 / 0.12) 55%, transparent 100%);
+        opacity: 0;
+        transform: scale(0.9);
+        transition: opacity var(--dur-quick) ease, transform 0.6s var(--ease-out);
+      }
+      .x-art__card:hover::before { opacity: 1; transform: scale(1.04); }
+      .x-art__card img { width: 100%; aspect-ratio: 1; object-fit: cover; margin-bottom: -6px; transition: transform 0.6s var(--ease-out); }
+      .x-art__card:hover img { transform: scale(1.04); }
+      .x-art__card h3 { display: flex; align-items: baseline; justify-content: center; gap: 10px; font: var(--type-heading); letter-spacing: 0.03em; }
+      .x-art__count { font: var(--weight-medium) 13px/1.3 var(--x-caps); color: var(--x-gold); font-variant-numeric: tabular-nums; white-space: nowrap; letter-spacing: 0.08em; }
+      .x-art__card p { font-size: var(--size-small); color: var(--text-secondary); max-width: 32ch; }
+      .x-art__card--gold::before { opacity: 0.8; animation: x-aura 4.5s ease-in-out infinite alternate; }
+      .x-art__card--gold h3 { color: var(--x-gold-hi); }
+      @keyframes x-aura {
+        from { opacity: 0.45; transform: scale(0.92); }
+        to { opacity: 1; transform: scale(1.08); }
+      }
+      .x-gold-badge,
+      .x-creator-badge {
+        padding: 2px 0;
+        color: var(--x-gold);
+        font: var(--weight-medium) 12px/1.3 var(--x-caps);
+        letter-spacing: 0.2em;
+        border-block: 1px solid rgb(201 164 92 / 0.45);
+      }
+      .x-gold-badge { color: var(--x-gold-hi); border-color: var(--x-gold); }
+      .x-group { display: grid; gap: 22px; }
+      .x-group + .x-group { margin-top: 28px; }
+      .x-group__title { font: var(--weight-medium) 13px/1.3 var(--x-caps); color: var(--x-gold); letter-spacing: 0.24em; text-transform: uppercase; display: flex; align-items: center; gap: 14px; }
+      .x-group__title::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--x-gold-deep), transparent); }
+
+      /* Mint */
+      .x-panel { display: grid; gap: 20px; align-content: start; padding: 22px 24px; border-radius: var(--r-l); background: linear-gradient(180deg, rgb(201 164 92 / 0.06), rgb(201 164 92 / 0.015)); border: 1px solid var(--stroke-secondary); }
+      .x-list { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; list-style: "✦  "; }
+      .x-list li::marker { color: var(--x-gold); font-size: 0.8em; }
+      .x-mystery { margin: 0; position: relative; }
+      .x-mystery img { width: 100%; aspect-ratio: 1; object-fit: cover; filter: blur(14px) brightness(0.45) sepia(0.5) saturate(1.2); }
+      .x-mystery__label { position: absolute; inset: 0; display: grid; place-content: center; gap: 6px; text-align: center; padding: 16px; }
+      .x-mystery__q { font: var(--type-display); color: var(--x-gold-hi); text-shadow: 0 0 40px rgb(201 164 92 / 0.6); }
+      .x-mystery__name { font: var(--weight-medium) 13px/1.3 var(--x-caps); letter-spacing: 0.16em; color: var(--x-gold); }
+
+      .x-tiers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      @media (max-width: 640px) { .x-tiers { grid-template-columns: 1fr; } }
+      .x-tier { display: grid; gap: 14px; align-content: start; padding: 22px 24px; border-radius: var(--r-l); background: linear-gradient(180deg, rgb(201 164 92 / 0.07), rgb(201 164 92 / 0.015)); border: 1px solid var(--stroke-secondary); transition: box-shadow var(--dur-quick) ease; }
+      .x-tier:hover { box-shadow: var(--x-glow); }
+      .x-tier__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+      .x-tier__head h3 { font: var(--type-heading); letter-spacing: 0.03em; }
+      .x-tier__price { color: var(--text-secondary); }
+      .x-tier__price b { font: var(--type-figure); color: var(--x-gold-hi); font-variant-numeric: tabular-nums; margin-right: 6px; }
+      .x-tier__price small { display: block; font: var(--type-caption); color: var(--x-gold); margin-top: 4px; }
+      .x-stepper { display: inline-flex; align-items: center; justify-self: start; border: 1px solid var(--stroke-primary); border-radius: var(--r-s); overflow: hidden; }
+      .x-stepper__btn { width: var(--tap); height: var(--tap); background: transparent; color: var(--x-gold-hi); border: 0; font: var(--type-heading); cursor: pointer; }
+      .x-stepper__btn:hover:not([disabled]) { background: rgb(201 164 92 / 0.1); }
+      .x-stepper__btn[disabled] { color: var(--text-secondary); opacity: 0.5; cursor: not-allowed; }
+      .x-stepper__qty { min-width: 48px; text-align: center; font: var(--type-label); font-variant-numeric: tabular-nums; }
+      .x-tier__total { display: flex; justify-content: space-between; gap: 12px; padding-top: 12px; border-top: 1px solid var(--stroke-secondary); font: var(--type-label); color: var(--text-secondary); }
+      .x-tier__calc { font-variant-numeric: tabular-nums; }
+      .x-tier__calc b { color: var(--text-primary); font-weight: var(--weight-bold); }
+      .x-tier .x-ghost { justify-self: start; }
+      #mint .x-tiers + .fineprint { margin-top: -8px; }
+
+      /* Sample post */
+      .x-post { display: grid; gap: 14px; align-content: start; padding: 18px; border-radius: var(--r-l); background: linear-gradient(180deg, rgb(201 164 92 / 0.06), rgb(201 164 92 / 0.015)); border: 1px solid var(--stroke-secondary); }
+      .x-post__head { display: flex; align-items: center; gap: 8px; }
+      .x-post__head img { width: 76px; height: 76px; margin: -10px -4px -10px -10px; object-fit: cover; }
+      .x-post__who { display: grid; font: var(--type-label); }
+      .x-post__who small { color: var(--text-secondary); font: var(--type-caption); }
+      .x-post__text { font-size: var(--size-prose); }
+      .x-post__text b { color: var(--x-gold-hi); font-weight: var(--weight-medium); }
+      .x-post__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+      .x-status { font: var(--type-caption); color: var(--x-gold-hi); min-height: 1.3em; }
+
+      /* Binance Agent mint */
+      .x-agent {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+        gap: clamp(24px, 3vw, 40px);
+        padding: clamp(22px, 3vw, 36px);
+        border-radius: var(--r-l);
+        border: 1px solid var(--stroke-primary);
+        background:
+          radial-gradient(520px 300px at 0% 0%, rgb(201 164 92 / 0.12), transparent 70%),
+          linear-gradient(180deg, rgb(201 164 92 / 0.04), rgb(8 7 10 / 0.4));
+      }
+      @media (max-width: 820px) { .x-agent { grid-template-columns: minmax(0, 1fr); } }
+      .x-agent__col { display: grid; gap: 16px; align-content: start; }
+      .x-agent__col .x-ghost { justify-self: start; }
+      .x-agent h3 { font: var(--type-title); }
+      .x-agent h4 { margin: 0; font: var(--type-heading); color: var(--x-gold-hi); letter-spacing: 0.02em; }
+      .x-agent__lead { font-size: var(--size-prose); color: var(--text-primary); max-width: 52ch; }
+      .x-code {
+        margin: 0;
+        padding: 18px 20px;
+        border-radius: var(--r-m);
+        background: #050405;
+        border: 1px solid var(--stroke-secondary);
+        box-shadow: inset 0 1px 0 rgb(201 164 92 / 0.12), inset 0 0 40px rgb(0 0 0 / 0.6);
+        color: #e6dcc4;
+        font: var(--weight-regular) 13px/1.65 "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+      .x-code__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+      .x-code__bar .x-cta { min-width: 0; }
+
+      /* Gold tint on the highlighted rarity row */
+      #series tr.is-highlight { --fill-tertiary: #251e10; }
+      #series tr.is-highlight th { color: var(--x-gold-hi); }
+
+      /* FAQ */
+      .x-faq { display: grid; border-top: 1px solid var(--stroke-secondary); }
+      .x-faq details { border-bottom: 1px solid var(--stroke-secondary); }
+      .x-faq summary {
+        display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        min-height: var(--tap); padding: 14px 0; cursor: pointer; list-style: none;
+        font: var(--type-body-strong);
+      }
+      .x-faq summary::-webkit-details-marker { display: none; }
+      .x-faq summary::after { content: "+"; flex: none; font: var(--type-heading); color: var(--x-gold); transition: transform var(--dur-quick) ease; }
+      .x-faq details[open] summary::after { transform: rotate(45deg); }
+      .x-faq details p { padding: 0 0 16px; color: var(--text-secondary); max-width: 62ch; }
+
+      /* Hero: no frame, the art melts into the obsidian at the sides and bottom */
+      #home { border-radius: 0; box-shadow: none; background: transparent; overflow: visible; }
+      #home .hero__img {
+        object-position: 50% 25%;
+        -webkit-mask-image: radial-gradient(ellipse 62% 80% at 50% 34%, #000 45%, rgb(0 0 0 / 0.5) 72%, transparent 100%);
+        mask-image: radial-gradient(ellipse 62% 80% at 50% 34%, #000 45%, rgb(0 0 0 / 0.5) 72%, transparent 100%);
+      }
+      #home::after {
+        background:
+          linear-gradient(to top, rgb(8 7 10 / 0.92) 0%, rgb(8 7 10 / 0.4) 34%, transparent 60%),
+          linear-gradient(to right, rgb(8 7 10 / 0.7) 0%, transparent 50%);
+      }
+      @media (max-width: 760px) {
+        #home .hero__img {
+          position: relative;
+          inset: auto;
+          height: auto;
+          aspect-ratio: 4 / 3;
+          object-position: 50% 25%;
+          -webkit-mask-image: radial-gradient(ellipse 72% 72% at 50% 40%, #000 45%, rgb(0 0 0 / 0.45) 74%, transparent 100%);
+          mask-image: radial-gradient(ellipse 72% 72% at 50% 40%, #000 45%, rgb(0 0 0 / 0.45) 74%, transparent 100%);
+        }
+        #home::after { background: none; }
+        #home .hero__copy { padding: 0 4px 12px; margin-top: -48px; }
+      }
+      /* Wallet and on-chain mint */
+      [hidden] { display: none !important; }
+      .x-progress__note { font: var(--type-caption); color: var(--x-gold); }
+      .x-tier__title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+      .x-tstat { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: var(--r-pill); border: 1px solid var(--stroke-primary); font: var(--type-tag); color: var(--text-secondary); white-space: nowrap; }
+      .x-tstat::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.7; }
+      .x-tstat.is-live { color: var(--x-gold-hi); border-color: var(--x-gold); background: rgb(201 164 92 / 0.1); }
+      .x-tstat.is-live::before { background: var(--x-gold-hi); opacity: 1; animation: x-pulse 1.6s ease-out infinite; }
+      @keyframes x-pulse { 0% { box-shadow: 0 0 0 0 rgb(232 207 143 / 0.7); } 100% { box-shadow: 0 0 0 7px rgb(232 207 143 / 0); } }
+      .x-tier .fineprint { margin: 0; }
+      .x-tier .x-status a, .x-w3 .x-status a { color: var(--x-gold-hi); }
+      .x-w3 { display: grid; gap: 10px; justify-items: start; }
+      .x-w3__acct { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font: var(--type-label); }
+      .x-w3__addr { font: var(--weight-regular) 13px/1.4 "Geist Mono", ui-monospace, Menlo, monospace; color: var(--x-gold-hi); }
+      .x-w3__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--x-gold-hi); box-shadow: 0 0 10px rgb(232 207 143 / 0.6); }
+      .x-w3__none { display: grid; gap: 12px; justify-items: start; padding: 14px 16px; border-radius: var(--r-m); border: 1px dashed var(--stroke-primary); font: var(--type-small); color: var(--text-secondary); }
+      .x-navwallet { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 8px 12px; border-radius: var(--r-pill); background: var(--fill-segment); color: var(--text-primary-on); font: var(--weight-regular) 12px/1.2 "Geist Mono", ui-monospace, Menlo, monospace; text-decoration: none; white-space: nowrap; }
+      .x-navwallet::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--x-gold-hi); }
+      @media (max-width: 599px) { .x-navwallet { min-height: var(--tap); padding: 8px 10px; } }
+      /* $DARK token */
+      .x-token { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
+      @media (max-width: 820px) { .x-token { grid-template-columns: minmax(0, 1fr); } }
+      .x-token__art { position: relative; isolation: isolate; margin: 0; width: min(100%, 460px); justify-self: center; }
+      .x-token__art::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, rgb(232 207 143 / 0.3), rgb(201 164 92 / 0.1) 58%, transparent 100%);
+        animation: x-aura 6s ease-in-out infinite alternate;
+      }
+      .x-token__art img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: contain;
+        -webkit-mask-image: radial-gradient(closest-side, #000 62%, rgb(0 0 0 / 0.6) 80%, rgb(0 0 0 / 0.15) 92%, transparent 100%);
+        mask-image: radial-gradient(closest-side, #000 62%, rgb(0 0 0 / 0.6) 80%, rgb(0 0 0 / 0.15) 92%, transparent 100%);
+        animation: x-float 7s ease-in-out infinite alternate;
+      }
+      @keyframes x-float { from { transform: translateY(-6px); } to { transform: translateY(8px); } }
+      .x-token { overflow: hidden; }
+      .x-token__copy { display: grid; gap: 18px; align-content: start; min-width: 0; }
+      .x-token__copy .head { margin: 0; }
+      .x-token__copy .prose p { max-width: 58ch; }
+      .x-token__copy .table-wrap { max-width: 420px; }
+      #token tr.is-highlight { --fill-tertiary: #251e10; }
+      #token tr.is-highlight th { color: var(--x-gold-hi); }
+      .x-token__row { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; }
+      .x-token__label { font: var(--type-label); color: var(--text-secondary); }
+      .x-addr { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 6px 14px; border-radius: var(--r-pill); border: 1px solid var(--stroke-primary); background: #14110b; color: var(--x-gold-hi); font: var(--weight-regular) 13px/1.4 "Geist Mono", ui-monospace, Menlo, monospace; overflow-wrap: anywhere; min-width: 0; max-width: 100%; }
+      .x-addr::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--x-gold); opacity: 0.8; }
+      .x-token__copy .fineprint { margin: 0; }
+      @media (prefers-reduced-motion: reduce) {
+        .x-token__art::before, .x-token__art img { animation: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .x-tstat.is-live::before { animation: none; }
+        .x-art__card--gold::before { animation: none; opacity: 0.8; }
+        .x-art__card img, .x-art__card::before { transition: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page" id="top">
+      <header class="nav glass" data-auto></header>
+      <main class="main">
+        <section class="hero" id="home" data-nav="Home" data-nav-zh="首页">
+          <img class="hero__img" src="dn-hero2.png" alt="Five Dark Node oracles in a row: Samurai, Void, the crowned Golden Oracle in the center, Pharaoh and Abyss" data-zh-alt="五位 Dark Node 神谕者并排而立：Samurai、Void、居中头戴王冠的 Golden Oracle、Pharaoh 与 Abyss" />
+          <div class="hero__copy">
+            <p class="hero__eyebrow x-eyebrow" data-zh="进入虚空">Enter the Void</p>
+            <h1>Dark Node</h1>
+            <p class="hero__sub" data-zh="1111 位神谕者。一张网络。活在链上的艺术。">1111 oracles. One network. Living art, fully on-chain.</p>
+            <p class="x-keeper" data-zh="每个节点都有守护者。">Every node has a keeper.</p>
+            <div class="links">
+              <a class="x-cta" href="#mint" data-zh="铸造 Dark Node">Mint Dark Node</a>
+              <a class="x-ghost" href="#series" data-zh="浏览系列">View Series</a>
+            </div>
+            <div class="x-progress">
+              <div class="x-progress__row"><span data-zh="已铸造">Minted</span><b id="minted-count">0 / 1111</b></div>
+              <div class="x-progress__bar" id="minted-bar" role="progressbar" aria-label="Minted" data-zh-aria-label="已铸造" aria-valuemin="0" aria-valuemax="1111" aria-valuenow="0"><span></span></div>
+              <p class="x-progress__note" id="contract-note" hidden data-zh="合约尚未部署">Contract not deployed yet</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="stats" aria-label="Collection" data-zh-aria-label="藏品">
+          <div class="stat"><span class="stat__fig">1111</span><span class="stat__label" data-zh="总量">Supply</span></div>
+          <div class="stat"><span class="stat__fig">13</span><span class="stat__label" data-zh="系列">Series</span></div>
+          <div class="stat"><span class="stat__fig">11</span><span class="stat__label" data-zh="传奇 1/1">Legendary 1/1</span></div>
+          <div class="stat"><span class="pill">BNB Chain</span><span class="stat__label" data-zh="公链">Chain</span></div>
+        </section>
+
+        <section class="section" id="story" data-nav="Story" data-nav-zh="故事">
+          <div class="head">
+            <p class="head__eyebrow x-eyebrow" data-zh="故事">The Story</p>
+            <h2 data-zh="每个网络都有它的守护者。">Every network has its guardians.</h2>
+          </div>
+          <div class="prose">
+            <p data-zh="人类先守护火种，再守护城市，如今守护数据。">First we guarded fire. Then cities. Then data.</p>
+            <p data-zh="Dark Node 是最后的守护者：身披兜帽的神谕者，脸庞就是一个节点，把每一位持有者连成同一片星座。">Dark Node is the last guardian: a hooded oracle whose face is a node, linking every holder into one constellation.</p>
+            <p><strong data-zh="先到者，点亮第一个节点。">First in lights the first node.</strong></p>
+          </div>
+          <figure class="x-strip">
+            <div class="x-strip__track">
+              <img src="dn-void.png" alt="Void: purple and cyan oracle" data-zh-alt="Void：紫青色神谕者" />
+              <img src="dn-ember.png" alt="Ember: smoldering orange node" data-zh-alt="Ember：燃烧的橙色节点" />
+              <img src="dn-abyss.png" alt="Abyss: teal node under the sea" data-zh-alt="Abyss：深海中的青绿色节点" />
+              <img src="dn-samurai.png" alt="Samurai: ronin with a red node" data-zh-alt="Samurai：带红色节点的浪人" />
+              <img src="dn-frost.png" alt="Frost: ice-blue oracle" data-zh-alt="Frost：冰蓝色神谕者" />
+              <img src="dn-glitch.png" alt="Glitch: neon pink and green node" data-zh-alt="Glitch：霓虹粉绿节点" />
+              <img src="dn-kol.png" alt="KOL: crowned influencer oracle" data-zh-alt="KOL：头戴王冠的网红神谕者" />
+              <img src="dn-pharaoh.png" alt="Pharaoh: golden pyramid node" data-zh-alt="Pharaoh：金色金字塔节点" />
+              <img src="dn-neon.png" alt="Neon Tokyo: black raincoat in a neon alley" data-zh-alt="Neon Tokyo：霓虹小巷里的黑色雨衣" />
+              <img src="dn-bloom.png" alt="Bloom: hood of roses and orchids" data-zh-alt="Bloom：缀满玫瑰与兰花的兜帽" />
+              <img src="dn-masquerade.png" alt="Masquerade: Venetian mask and ruby node" data-zh-alt="Masquerade：威尼斯面具与红宝石节点" />
+              <img src="dn-celestial.png" alt="Celestial: galaxy robe and star node" data-zh-alt="Celestial：星河长袍与星辰节点" />
+              <img src="dn-golden.png" alt="Golden Oracle: legendary gold oracle" data-zh-alt="Golden Oracle：传奇黄金神谕者" />
+            </div>
+            <figcaption data-zh="13 个系列，1111 位神谕者，绝无重样。">13 series, 1111 oracles. No two alike.</figcaption>
+          </figure>
+        </section>
+
+        <section class="section" id="series" data-nav="Series" data-nav-zh="系列">
+          <div class="head">
+            <p class="head__eyebrow x-eyebrow" data-zh="系列">The Series</p>
+            <h2 data-zh="13 种点亮方式。">13 ways to light up.</h2>
+            <p class="head__sub" data-zh="共 1111 枚，每次铸造随机获得一个系列。">1111 total. Every mint rolls a random series.</p>
+          </div>
+          <div class="x-group">
+            <h3 class="x-group__title" data-zh="元素">Elements</h3>
+            <div class="x-art">
+              <article class="x-art__card">
+                <img src="dn-void.png" alt="Purple and cyan Void oracle in cosmic darkness" data-zh-alt="宇宙暗色中的紫青色 Void 神谕者" />
+                <h3>Void <span class="x-art__count">150</span></h3>
+                <p data-zh="初代神谕者，宇宙暗色中的紫与青。">The OG oracle, purple and cyan in cosmic dark.</p>
+              </article>
+              <article class="x-art__card">
+                <img src="dn-ember.png" alt="Ember oracle with a smoldering octahedron core" data-zh-alt="拥有燃烧八面体核心的 Ember 神谕者" />
+                <h3>Ember <span class="x-art__count">110</span></h3>
+                <p data-zh="燃烧的八面体核心，龟裂的黑曜石铠甲。">Smoldering octahedron core, cracked obsidian armor.</p>
+              </article>
+              <article class="x-art__card">
+                <img src="dn-abyss.png" alt="Abyss oracle with a teal node on the ocean floor" data-zh-alt="海底深处拥有青绿色节点的 Abyss 神谕者" />
+                <h3>Abyss <span class="x-art__count">110</span></h3>
+                <p data-zh="海底深处的青绿色节点，水母微光浮动。">Teal node on the ocean floor, glowing jellyfish.</p>
+              </article>
+              <article class="x-art__card">
+                <img src="dn-frost.png" alt="Ice-blue Frost oracle in a blizzard" data-zh-alt="暴风雪中的冰蓝色 Frost 神谕者" />
+                <h3>Frost <span class="x-art__count">90</span></h3>
+                <p data-zh="暴风雪中心的冰晶。">Ice crystals in the eye of a blizzard.</p>
+              </article>
+              <article class="x-art__card">
+                <img src="dn-celestial.png" alt="Celestial oracle in a galaxy robe with a ringed star node" data-zh-alt="身披星河长袍、拥有环形星辰节点的 Celestial 神谕者" />
+                <h3>Celestial <span class="x-art__count">70</span></h3>
+                <p data-zh="《星空》风格的星河长袍，带光环的星辰节点。">Starry Night galaxy robe, ringed star node.</p>
+              </article>
+              <article class="x-art__card">
+                <img src="dn-bloom.png" alt="Bloom oracle with a hood of roses and orchids" data-zh-alt="兜帽缀满玫瑰与兰花的 Bloom 神谕者" />
+                <h3>Bloom <span class="x-art__count">80</span></h3>
+                <p data-zh="兜帽上开满玫瑰与兰花，粉色水晶节点。">Hood overgrown with roses and orchids, pink crystal node.</p>
+              </article>
+            </div>
+          </div>
+          <div class="x-group">
+            <h3 class="x-group__title" data-zh="文化">Culture</h3>
+            <div class="x-art">
+              <article class="x-art__card">
+                <img src="dn-samurai.png" alt="Samurai ronin with a red node" data-zh-alt="带红色节点的 Samurai 浪人" />
+                <h3>Samurai <span class="x-art__count">90</span></h3>
+                <p data-zh="无面浪人，红色节点，数据樱花纷飞。">Faceless ronin, red node, falling data sakura.</p>
+              </article>
+              <article class="x-art__card">
+                <img src="dn-pharaoh.png" alt="Pharaoh oracle with a golden pyramid node in the desert" data-zh-alt="沙漠中拥有金色金字塔节点的 Pharaoh 神谕者" />
+                <h3>Pharaoh <span class="x-art__count">80</span></h3>
+                <p data-zh="沙漠星空下的金色金字塔节点。">Golden pyramid node beneath desert constellations.</p>
+              </article>
+              <article class="x-art__card">
+                <img src="dn-masquerade.png" alt="Masquerade oracle in a Venetian mask with a ruby node" data-zh-alt="戴威尼斯面具、拥有红宝石节点的 Masquerade 神谕者" />
+                <h3>Masquerade <span class="x-art__count">70</span></h3>
+                <p data-zh="威尼斯面具，红宝石节点，巴洛克舞会。">Venetian mask, ruby node, baroque ball.</p>
+              </article>
+              <article class="x-art__card">
+                <img src="dn-neon.png" alt="Neon Tokyo oracle in a black raincoat in a neon alley" data-zh-alt="霓虹小巷中身穿黑色雨衣的 Neon Tokyo 神谕者" />
+                <h3>Neon Tokyo <span class="x-art__count">80</span></h3>
+                <p data-zh="雨水浸湿的霓虹小巷里，一袭黑色雨衣。">Black raincoat in a rain-soaked neon alley.</p>
+              </article>
+            </div>
+          </div>
+          <div class="x-group">
+            <h3 class="x-group__title" data-zh="币圈生活">Crypto Life</h3>
+            <div class="x-art">
+              <article class="x-art__card">
+                <img src="dn-glitch.png" alt="Glitch oracle with a shattered neon node" data-zh-alt="拥有碎裂霓虹节点的 Glitch 神谕者" />
+                <h3>Glitch <span class="x-art__count">90</span></h3>
+                <p data-zh="碎裂的霓虹节点，街头涂鸦与数据故障（datamosh）风格。">Shattered neon node, street-art meets datamosh.</p>
+              </article>
+              <article class="x-art__card">
+                <img src="dn-kol.png" alt="Crowned KOL oracle surrounded by likes and spotlights" data-zh-alt="被点赞与聚光灯环绕、头戴王冠的 KOL 神谕者" />
+                <span class="x-creator-badge">CREATOR PICK</span>
+                <h3>KOL <span class="x-art__count">80</span></h3>
+                <p data-zh="头戴王冠的网红神谕者，被点赞与聚光灯环绕。创作者专属系列。">Crowned influencer oracle, surrounded by likes and spotlights. Creator-only series.</p>
+              </article>
+              <article class="x-art__card x-art__card--gold">
+                <img src="dn-golden.png" alt="Legendary gold Golden Oracle" data-zh-alt="传奇黄金 Golden Oracle" />
+                <span class="x-gold-badge">LEGENDARY 1/1</span>
+                <h3>Golden Oracle <span class="x-art__count">11</span></h3>
+                <p data-zh="传奇级。仅 11 枚，纯金如圣像。">Legendary. Only 11, pure gold like a sacred icon.</p>
+              </article>
+            </div>
+          </div>
+          <p class="fineprint" data-zh="共 1111 枚。系列在铸造时随机分配；特征（核心形状、光效颜色、兜帽、背景）让每一件都独一无二。">1111 total. Series is randomized at mint; traits (core shape, glow color, hood, background) make every piece unique.</p>
+          <div class="table-wrap">
+            <table>
+              <caption data-zh="各系列稀有度">Rarity by series</caption>
+              <thead>
+                <tr><th scope="col" data-zh="系列">Series</th><th scope="col" data-zh="数量">Supply</th><th scope="col" data-zh="稀有度 %">Rarity %</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Void</th><td class="num">150</td><td>13.5%</td></tr>
+                <tr><th scope="row">Ember</th><td class="num">110</td><td>9.9%</td></tr>
+                <tr><th scope="row">Abyss</th><td class="num">110</td><td>9.9%</td></tr>
+                <tr><th scope="row">Samurai</th><td class="num">90</td><td>8.1%</td></tr>
+                <tr><th scope="row">Frost</th><td class="num">90</td><td>8.1%</td></tr>
+                <tr><th scope="row">Glitch</th><td class="num">90</td><td>8.1%</td></tr>
+                <tr><th scope="row">KOL <small>Creator pick</small></th><td class="num">80</td><td>7.2%</td></tr>
+                <tr><th scope="row">Pharaoh</th><td class="num">80</td><td>7.2%</td></tr>
+                <tr><th scope="row">Neon Tokyo</th><td class="num">80</td><td>7.2%</td></tr>
+                <tr><th scope="row">Bloom</th><td class="num">80</td><td>7.2%</td></tr>
+                <tr><th scope="row">Masquerade</th><td class="num">70</td><td>6.3%</td></tr>
+                <tr><th scope="row">Celestial</th><td class="num">70</td><td>6.3%</td></tr>
+                <tr class="is-highlight"><th scope="row">Golden Oracle <small>Legendary 1/1</small></th><td class="num">11</td><td>1.0%</td></tr>
+                <tr><th scope="row" data-zh="合计">Total</th><td class="num">1111</td><td>100%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="mint" data-nav="Mint" data-nav-zh="铸造">
+          <div class="head">
+            <p class="head__eyebrow x-eyebrow" data-zh="铸造">Mint</p>
+            <h2 data-zh="认领你的节点。">Claim your node.</h2>
+          </div>
+          <div class="x-tiers">
+            <article class="x-tier" data-tier="free" data-price="0.0005" data-max="4">
+              <div class="x-tier__head">
+                <div class="x-tier__title"><h3 data-zh="免费铸造">Free Mint</h3><span class="x-tstat" data-tstat></span></div>
+                <span class="pill" data-zh="每个钱包最多 4 枚">Max 4 / wallet</span>
+              </div>
+              <p class="x-tier__price" data-zh="&lt;b&gt;0.0005 BNB&lt;/b&gt; / 次 &lt;small&gt;只需一点小额费用&lt;/small&gt;"><b>0.0005 BNB</b> per mint <small>Just a tiny fee</small></p>
+              <div class="x-stepper" role="group" aria-label="Free Mint quantity" data-zh-aria-label="免费铸造数量">
+                <button type="button" class="x-stepper__btn" data-step="-1" aria-label="Decrease" data-zh-aria-label="减少">−</button>
+                <output class="x-stepper__qty" aria-live="polite">1</output>
+                <button type="button" class="x-stepper__btn" data-step="1" aria-label="Increase" data-zh-aria-label="增加">+</button>
+              </div>
+              <p class="x-tier__total"><span data-zh="合计">Total</span> <span class="x-tier__calc">1 × 0.0005 BNB = <b>0.0005 BNB</b></span></p>
+              <p class="fineprint" data-allow hidden></p>
+              <button class="x-ghost" type="button" disabled data-mint data-zh="免费铸造">Free Mint</button>
+              <p class="x-status" data-tx role="status" aria-live="polite"></p>
+            </article>
+            <article class="x-tier" data-tier="paid" data-price="0.001" data-max="10">
+              <div class="x-tier__head">
+                <div class="x-tier__title"><h3 data-zh="付费铸造">Paid Mint</h3><span class="x-tstat" data-tstat></span></div>
+                <span class="pill" data-zh="每个钱包最多 10 枚">Max 10 / wallet</span>
+              </div>
+              <p class="x-tier__price" data-zh="&lt;b&gt;0.001 BNB&lt;/b&gt; / 次"><b>0.001 BNB</b> per mint</p>
+              <div class="x-stepper" role="group" aria-label="Paid Mint quantity" data-zh-aria-label="付费铸造数量">
+                <button type="button" class="x-stepper__btn" data-step="-1" aria-label="Decrease" data-zh-aria-label="减少">−</button>
+                <output class="x-stepper__qty" aria-live="polite">1</output>
+                <button type="button" class="x-stepper__btn" data-step="1" aria-label="Increase" data-zh-aria-label="增加">+</button>
+              </div>
+              <p class="x-tier__total"><span data-zh="合计">Total</span> <span class="x-tier__calc">1 × 0.001 BNB = <b>0.001 BNB</b></span></p>
+              <p class="fineprint" data-allow hidden></p>
+              <button class="x-ghost" type="button" disabled data-mint data-zh="付费铸造">Paid Mint</button>
+              <p class="x-status" data-tx role="status" aria-live="polite"></p>
+            </article>
+          </div>
+          <p class="fineprint" data-zh="在 BNB Chain 上铸造。Gas 费另计，仅需几美分。">Minting on BNB Chain. Gas is separate, just a few cents.</p>
+          <div class="x-agent" id="agent">
+            <div class="x-agent__col">
+              <p class="x-eyebrow" data-zh="Binance Agent">Binance Agent</p>
+              <h3 data-zh="用你的 Binance Agent 铸造">Mint with your Binance Agent</h3>
+              <p class="x-agent__lead" data-zh="请使用持有 Binance Agent ID 的钱包。手机用户请在 Binance Wallet 内打开本页面。">Use the wallet that holds your Binance Agent ID. On a phone, open this page inside Binance Wallet.</p>
+              <ul class="x-list">
+                <li data-zh="Binance Agent ID 持有者享有优先铸造权。">Binance Agent ID holders get priority access.</li>
+                <li data-zh="代理负责预览，你来确认，未经你同意不会签名。">Your agent previews, you confirm. Nothing signs without you.</li>
+                <li data-zh="Gas 费仅需几美分的 BNB。">Gas is only a few cents of BNB.</li>
+                <li data-zh="合约地址将在铸造前于 X 上公布。">Contract address will be published on X before mint.</li>
+              </ul>
+              <div class="x-w3">
+                <button class="x-ghost" type="button" data-connect data-zh="连接钱包">Connect Wallet</button>
+                <p class="x-w3__acct" data-acct hidden><span class="x-w3__dot" aria-hidden="true"></span><span class="x-w3__addr" data-addr></span><a class="link" href="#" role="button" data-disconnect data-zh="断开连接">Disconnect</a></p>
+                <div class="x-w3__none" data-nowallet hidden>
+                  <p data-zh="未检测到钱包。请在 Binance Wallet 或 MetaMask 浏览器中打开本页面。">No wallet found. Open this page in Binance Wallet or MetaMask browser.</p>
+                  <a class="x-ghost" data-mm href="https://metamask.app.link/dapp/" target="_blank" rel="noopener" data-zh="在 MetaMask 中打开">Open in MetaMask</a>
+                </div>
+                <p class="x-status" data-w3status role="status" aria-live="polite"></p>
+              </div>
+            </div>
+            <div class="x-agent__col">
+              <div class="x-code__bar">
+                <h4 data-zh="让你的 AI 代理帮你铸造">Ask your AI agent to mint</h4>
+                <button class="x-cta" type="button" id="prompt-btn">Copy mint prompt</button>
+              </div>
+              <pre class="x-code" id="agent-prompt" data-zh="在 BNB Chain（链 ID 56）上，从官方 Dark Node 合约（地址将在 X @DarkNode402x 公布）铸造 Dark Node NFT。使用持有我 Binance Agent ID 的钱包。检查铸造时间窗口和我的剩余额度：免费铸造每个 0.0005 BNB，每个钱包最多 4 个；付费铸造每个 0.001 BNB，每个钱包最多 10 个。签名前先向我展示交易预览和总费用，并等待我的确认。完成后从交易回执中告诉我我的 Dark Node 编号。">On BNB Chain (chain ID 56), mint Dark Node NFTs from the official Dark Node contract (address announced on X @DarkNode402x). Use the wallet holding my Binance Agent ID. Check the mint window and my remaining allowance: Free Mint costs 0.0005 BNB each, max 4 per wallet; Paid Mint costs 0.001 BNB each, max 10 per wallet. Show me the transaction preview and total cost, and wait for my confirmation before signing. Then tell me my Dark Node numbers from the receipt.</pre>
+              <p class="x-status" id="prompt-status" role="status" aria-live="polite"></p>
+            </div>
+          </div>
+          <div class="pair">
+            <div class="x-panel">
+              <div class="breakdown">
+                <dl>
+                  <div class="row"><dt data-zh="总量 &lt;small&gt;免费铸造与付费铸造共享&lt;/small&gt;">Supply <small>Shared between Free Mint and Paid Mint</small></dt><dd>1111</dd></div>
+                  <div class="row"><dt data-zh="公链">Chain</dt><dd>BNB Chain</dd></div>
+                  <div class="row"><dt data-zh="铸造日期">Mint date</dt><dd data-zh="待定">TBA</dd></div>
+                </dl>
+              </div>
+              <ul class="x-list">
+                <li data-zh="两档合计仅 1111 枚，永不增发。">1111 total across both tiers. No more, ever.</li>
+                <li data-zh="免费铸造每个钱包最多 4 枚，付费铸造最多 10 枚。">Free Mint max 4 per wallet, Paid Mint max 10.</li>
+                <li data-zh="铸造时随机分配系列。">Random series at mint.</li>
+                <li data-zh="Golden Oracle 持有者可获得独家合作权益。">Golden Oracle holders get exclusive collab access.</li>
+              </ul>
+              <p id="contract-wrap" hidden><a class="link" id="contract-link" href="https://bscscan.com" target="_blank" rel="noopener" data-zh="在 BscScan 查看合约">View contract on BscScan</a></p>
+              <div class="x-w3">
+                <button class="x-ghost" type="button" data-connect data-zh="连接钱包">Connect Wallet</button>
+                <p class="x-w3__acct" data-acct hidden><span class="x-w3__dot" aria-hidden="true"></span><span class="x-w3__addr" data-addr></span><a class="link" href="#" role="button" data-disconnect data-zh="断开连接">Disconnect</a></p>
+                <div class="x-w3__none" data-nowallet hidden>
+                  <p data-zh="未检测到钱包。请在 Binance Wallet 或 MetaMask 浏览器中打开本页面。">No wallet found. Open this page in Binance Wallet or MetaMask browser.</p>
+                  <a class="x-ghost" data-mm href="https://metamask.app.link/dapp/" target="_blank" rel="noopener" data-zh="在 MetaMask 中打开">Open in MetaMask</a>
+                </div>
+                <p class="x-status" data-w3status role="status" aria-live="polite"></p>
+              </div>
+            </div>
+            <figure class="x-mystery">
+              <img src="dn-void.png" alt="" />
+              <div class="x-mystery__label">
+                <span class="x-mystery__q">?</span>
+                <span class="x-mystery__name">Dark Node #????</span>
+              </div>
+            </figure>
+          </div>
+        </section>
+
+        <section class="section" id="social" data-nav="Social Mining" data-nav-zh="社交挖矿">
+          <div class="head">
+            <p class="head__eyebrow x-eyebrow" data-zh="社交挖矿 · KOL">Social Mining · KOL</p>
+            <h2 data-zh="晒出你的节点。">Flex your node.</h2>
+          </div>
+          <div class="pair">
+            <div class="prose">
+              <p data-zh="每天在 X 上发布你的 Dark Node 卡片，带上 &lt;strong&gt;#DarkNode&lt;/strong&gt; 和你的节点编号，即可进入白名单并赢取社区奖励。">Post your Dark Node card on X every day with <strong>#DarkNode</strong> and your node number to land on the allowlist and earn community rewards.</p>
+              <p><strong data-zh="KOL 福利">KOL perks</strong></p>
+              <ul class="x-list">
+                <li data-zh="优先白名单">Early allowlist</li>
+                <li data-zh="为头部创作者抽奖送出 1 枚 Golden Oracle">1 Golden Oracle raffle for top creators</li>
+                <li data-zh="登上画廊展示墙">Featured on the gallery wall</li>
+                <li data-zh="头部创作者有机会通过专属白名单获得 KOL 系列。">Top creators get a shot at the KOL series via a dedicated allowlist.</li>
+              </ul>
+            </div>
+            <div class="x-post">
+              <div class="x-post__head">
+                <img src="dn-golden.png" alt="Golden Oracle card" data-zh-alt="Golden Oracle 卡片" />
+                <span class="x-post__who" data-zh="示例帖子 &lt;small&gt;发布于 X&lt;/small&gt;">Sample post <small>on X</small></span>
+              </div>
+              <p class="x-post__text" id="post-text" data-zh="我是 Dark Node #0777，我的节点已点亮。&lt;b&gt;#DarkNode&lt;/b&gt; @DarkNode402x">I'm Dark Node #0777. My node is lit. <b>#DarkNode</b> @DarkNode402x</p>
+              <div class="x-post__actions">
+                <button class="x-ghost" type="button" id="copy-btn">Copy text</button>
+                <a class="x-cta" id="post-link" href="https://x.com/intent/post?text=I'm%20Dark%20Node%20%230777.%20My%20node%20is%20lit.%20%23DarkNode%20%40DarkNode402x" target="_blank" rel="noopener" data-zh="在 X 上发布">Post on X</a>
+                <a class="x-ghost" href="https://x.com/intent/follow?screen_name=DarkNode402x" target="_blank" rel="noopener" data-zh="关注 @DarkNode402x">Follow @DarkNode402x</a>
+              </div>
+              <p class="x-status" id="copy-status" role="status" aria-live="polite"></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="rules" data-nav="Rules" data-nav-zh="规则">
+          <div class="head">
+            <p class="head__eyebrow x-eyebrow" data-zh="规则">Rules</p>
+            <h2 data-zh="游戏规则。">The rules.</h2>
+          </div>
+          <div class="x-faq">
+            <details><summary data-zh="总量是多少？">What's the supply?</summary><p data-zh="1111 枚，固定不变。">1111, final.</p></details>
+            <details><summary data-zh="每个钱包能铸造多少？">How many per wallet?</summary><p data-zh="免费铸造最多 4 枚（每次 0.0005 BNB），付费铸造最多 10 枚（每次 0.001 BNB）。">Free Mint max 4 (0.0005 BNB per mint), Paid Mint max 10 (0.001 BNB per mint).</p></details>
+            <details><summary data-zh="可以自选系列吗？">Can I pick my series?</summary><p data-zh="不可以，铸造时随机分配。">No, it's random at mint.</p></details>
+            <details><summary data-zh="Golden Oracle 有什么不同？">What makes Golden Oracle different?</summary><p data-zh="仅 11 枚，传奇 1/1，附带合作权益。">Only 11, legendary 1/1, with collab access.</p></details>
+            <details><summary data-zh="什么时候开始铸造？">When is mint?</summary><p data-zh="将在 X @DarkNode402x 公布。">Announced on X @DarkNode402x.</p></details>
+            <details><summary data-zh="价格多少？">Price?</summary><p data-zh="免费铸造每次 0.0005 BNB，付费铸造每次 0.001 BNB，基于 BNB Chain。">Free Mint 0.0005 BNB, Paid Mint 0.001 BNB per mint, on BNB Chain.</p></details>
+          </div>
+        </section>
+
+        <section class="section" id="token" data-nav="$DARK" data-nav-zh="$DARK">
+          <div class="x-token">
+            <figure class="x-token__art">
+              <img src="dn-token.png" alt="$DARK token emblem: a hooded Golden Oracle on an obsidian and gold coin" data-zh-alt="$DARK 代币徽章：黑曜石与黄金铸成的硬币上，身披兜帽的 Golden Oracle" />
+            </figure>
+            <div class="x-token__copy">
+              <div class="head">
+                <p class="head__eyebrow x-eyebrow" data-zh="$DARK 代币">$DARK Token</p>
+                <h2 data-zh="节点永燃。">The node keeps burning.</h2>
+              </div>
+              <div class="prose">
+                <p data-zh="每枚 Dark Node NFT 都按其系列权重，分享计划中的 $DARK 定时排放。越稀有的节点挖得越多，Golden Oracle 1/1 权重最高。NFT 转手时，此前累积的部分仍由原持有者领取，此后的累积归新持有者所有。">Every Dark Node NFT carries a share of scheduled $DARK emissions, weighted by its series. Rarer nodes mine more; the Golden Oracle 1/1s carry the heaviest weight. When an NFT changes hands, past accrual stays claimable by the previous holder and future accrual moves to the new owner.</p>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <caption data-zh="计划挖矿权重">Planned mining weight</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" data-zh="系列">Series</th>
+                      <th scope="col" data-zh="权重">Weight</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="is-highlight">
+                      <th scope="row">Golden Oracle</th>
+                      <td class="num">×10</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">KOL</th>
+                      <td class="num">×3</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Pharaoh · Masquerade · Celestial</th>
+                      <td class="num">×2</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" data-zh="其他所有系列">All other series</th>
+                      <td class="num">×1</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="fineprint" data-zh="挖矿开始时间与排放量以链上配置为准。代币上线：即将推出。">Mining start time and emissions follow the on-chain configuration. Token launch: coming soon.</p>
+              <div class="x-token__row">
+                <span class="x-token__label" data-zh="$DARK 合约（BNB Chain）：">$DARK contract (BNB Chain):</span>
+                <span class="x-addr" id="token-addr" data-zh="即将推出">Coming soon</span>
+                <button class="x-ghost" type="button" id="token-btn" disabled data-zh="在 BscScan 查看">View on BscScan</button>
+                <a class="x-ghost" id="token-link" href="https://bscscan.com" target="_blank" rel="noopener" hidden data-zh="在 BscScan 查看">View on BscScan</a>
+              </div>
+              <p class="fineprint" data-zh="$DARK 尚处于计划阶段，尚未部署，细节可能调整。持有 NFT 不代表对收益、分红或价格的任何承诺。">$DARK is planned and not yet deployed. Details may change. Holding an NFT does not promise returns, dividends or price.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer class="foot">
+        <p data-zh="&lt;strong&gt;Dark Node&lt;/strong&gt; · 每个节点都是守护者。&lt;br /&gt;&lt;small&gt;演示概念，尚无官方合约。&lt;/small&gt;"><strong>Dark Node</strong> · Every node is a guardian.<br /><small>Demo concept. No official contract yet.</small></p>
+        <p id="token-foot" data-zh="$DARK 合约（BNB Chain）：即将推出">$DARK contract (BNB Chain): coming soon</p>
+        <nav aria-label="Links" data-zh-aria-label="链接">
+          <a href="https://x.com/DarkNode402x" target="_blank" rel="noopener">X @DarkNode402x</a>
+          <a aria-disabled="true" data-zh="白皮书（即将推出）">Whitepaper (coming soon)</a>
+          <a href="#series" data-zh="画廊">Gallery</a>
+        </nav>
+      </footer>
+    </div>
+    <script src="hark.js"></script>
+    <script>
+      /* CONFIG */
+      const CONTRACT = ""; // Dark Node contract on BNB Chain, filled after deploy
+      const RPC = "https://bsc-dataseed.binance.org";
+      const CHAIN_ID_HEX = "0x38"; // 56
+      const TOKEN = ""; // $DARK token contract on BNB Chain, filled after deploy
+
+      /* $DARK contract: show the address and link to BscScan once TOKEN is set. */
+      (function () {
+        if (!TOKEN) return;
+        var addr = document.getElementById("token-addr");
+        var foot = document.getElementById("token-foot");
+        var link = document.getElementById("token-link");
+        addr.removeAttribute("data-zh");
+        addr.textContent = TOKEN;
+        foot.textContent = "$DARK contract (BNB Chain): " + TOKEN;
+        foot.setAttribute("data-zh", "$DARK 合约（BNB Chain）：" + TOKEN);
+        link.href = "https://bscscan.com/token/" + TOKEN;
+        link.hidden = false;
+        document.getElementById("token-btn").hidden = true;
+      })();
+
+      (function () {
+        var seg = document.querySelector(".nav .seg");
+        if (seg) {
+          var x = document.createElement("a");
+          x.href = "https://x.com/DarkNode402x";
+          x.target = "_blank";
+          x.rel = "noopener";
+          x.textContent = "X";
+          seg.appendChild(x);
+        }
+        /* Tier state: the stepper is capped to the wallet's remaining allowance once known. */
+        var TIERS = [];
+        document.querySelectorAll(".x-tier").forEach(function (tier) {
+          var price = parseFloat(tier.dataset.price);
+          var priceText = tier.dataset.price;
+          var max = parseInt(tier.dataset.max, 10);
+          var dec = (priceText.split(".")[1] || "").length;
+          var out = tier.querySelector(".x-stepper__qty");
+          var calc = tier.querySelector(".x-tier__calc");
+          var minus = tier.querySelector('[data-step="-1"]');
+          var plus = tier.querySelector('[data-step="1"]');
+          var t = { el: tier, kind: tier.dataset.tier, max: max, cap: max, qty: 1, open: null, remaining: null, busy: false, msg: null };
+          t.render = function () {
+            var top = Math.max(1, t.cap);
+            t.qty = Math.min(top, Math.max(1, t.qty));
+            var total = parseFloat((t.qty * price).toFixed(dec)).toString();
+            out.textContent = t.qty;
+            calc.innerHTML = t.qty + " × " + priceText + " BNB = <b>" + total + " BNB</b>";
+            minus.disabled = t.qty <= 1;
+            plus.disabled = t.qty >= top;
+          };
+          [minus, plus].forEach(function (b) {
+            b.addEventListener("click", function () {
+              t.qty += parseInt(b.dataset.step, 10);
+              t.render();
+            });
+          });
+          t.render();
+          TIERS.push(t);
+        });
+
+        /* The agent prompt carries the contract address in both languages. */
+        var promptEl = document.getElementById("agent-prompt");
+        promptEl.textContent = promptEl.textContent + " Contract address: " + (CONTRACT || "announced on X @DarkNode402x");
+        promptEl.setAttribute("data-zh", promptEl.getAttribute("data-zh") + " 合约地址：" + (CONTRACT || "将在 X @DarkNode402x 公布"));
+        /* Language: English and Simplified Chinese, swapped in place from data attributes. */
+        var STR = {
+          en: {
+            title: "Dark Node Collection",
+            post: "I'm Dark Node #0777. My node is lit. #DarkNode @DarkNode402x",
+            copy: "Copy text",
+            copying: "Copying…",
+            copyingStatus: "Copying text…",
+            copied: "Copied",
+            copiedStatus: "Copied. Paste it on X.",
+            failStatus: "Couldn't copy. Copy the text above manually.",
+            pCopy: "Copy mint prompt",
+            pCopyingStatus: "Copying prompt…",
+            pCopiedStatus: "Prompt copied. Paste it into your AI agent.",
+            pFailStatus: "Couldn't copy. Select the prompt above and copy it manually.",
+            live: "Live",
+            notOpen: "Not open yet",
+            soon: "Coming soon",
+            checking: "Checking…",
+            allow: "You can mint {n} more",
+            allowNone: "You've reached this tier's wallet limit.",
+            connecting: "Check your wallet to connect…",
+            confirm: "Confirm in wallet…",
+            pending: "Pending…",
+            viewTx: "View on BscScan",
+            success: "Minted! Welcome, keeper.",
+            slow: "Still pending. Check BscScan for the result.",
+            failed: "The transaction failed on-chain. No NFT was minted.",
+            rejected: "You cancelled the request in your wallet.",
+            eLimit: "Wallet limit reached for this tier.",
+            eClosed: "This mint is not open right now.",
+            eSold: "Sold out. All 1111 nodes are claimed.",
+            ePay: "Wrong payment amount. Refresh the page and try again.",
+            eFunds: "Not enough BNB in this wallet for the mint and gas.",
+            wrongNet: "Switch your wallet to BNB Smart Chain to mint.",
+            eGeneric: "Something went wrong. Please try again."
+          },
+          zh: {
+            title: "Dark Node 藏品系列",
+            post: "我是 Dark Node #0777，我的节点已点亮。#DarkNode @DarkNode402x",
+            copy: "复制文案",
+            copying: "复制中…",
+            copyingStatus: "正在复制文案…",
+            copied: "已复制",
+            copiedStatus: "已复制，去 X 上粘贴吧。",
+            failStatus: "复制失败，请手动复制上方文案。",
+            pCopy: "复制铸造指令",
+            pCopyingStatus: "正在复制指令…",
+            pCopiedStatus: "指令已复制，粘贴给你的 AI 代理即可。",
+            pFailStatus: "复制失败，请手动选中上方指令并复制。",
+            live: "进行中",
+            notOpen: "尚未开放",
+            soon: "即将开放",
+            checking: "查询中…",
+            allow: "你还可以铸造 {n} 个",
+            allowNone: "你已达到该档位的钱包上限。",
+            connecting: "请在钱包中确认连接…",
+            confirm: "请在钱包中确认…",
+            pending: "等待确认…",
+            viewTx: "在 BscScan 查看",
+            success: "铸造成功！欢迎你，守护者。",
+            slow: "交易仍在处理中，请在 BscScan 查看结果。",
+            failed: "交易在链上执行失败，未铸造任何 NFT。",
+            rejected: "你已在钱包中取消了请求。",
+            eLimit: "该档位已达到钱包上限。",
+            eClosed: "该档位铸造暂未开放。",
+            eSold: "已售罄，1111 枚节点已全部被认领。",
+            ePay: "支付金额不正确，请刷新页面后重试。",
+            eFunds: "钱包中的 BNB 不足以支付铸造费用和 Gas。",
+            wrongNet: "请将钱包切换到 BNB Smart Chain 后再铸造。",
+            eGeneric: "出了点问题，请重试。"
+          }
+        };
+        var lang = "en";
+        var ATTRS = ["alt", "aria-label"];
+        document.querySelectorAll("[data-zh]").forEach(function (el) {
+          if (!el.hasAttribute("data-en")) el.setAttribute("data-en", el.innerHTML);
+        });
+        ATTRS.forEach(function (a) {
+          document.querySelectorAll("[data-zh-" + a + "]").forEach(function (el) {
+            if (!el.hasAttribute("data-en-" + a)) el.setAttribute("data-en-" + a, el.getAttribute(a) || "");
+          });
+        });
+        var btn = document.getElementById("copy-btn");
+        var status = document.getElementById("copy-status");
+        var postLink = document.getElementById("post-link");
+        var pBtn = document.getElementById("prompt-btn");
+        var pStatus = document.getElementById("prompt-status");
+        var pText = document.getElementById("agent-prompt");
+        var langBtns = [];
+        function applyLang(next) {
+          lang = next;
+          document.documentElement.lang = lang === "zh" ? "zh-Hans" : "en";
+          document.title = STR[lang].title;
+          document.querySelectorAll("[data-zh]").forEach(function (el) {
+            el.innerHTML = el.getAttribute("data-" + lang);
+          });
+          ATTRS.forEach(function (a) {
+            document.querySelectorAll("[data-zh-" + a + "]").forEach(function (el) {
+              el.setAttribute(a, el.getAttribute("data-" + lang + "-" + a));
+            });
+          });
+          document.querySelectorAll("section[data-nav]").forEach(function (s) {
+            var label = lang === "zh" ? s.getAttribute("data-nav-zh") : s.getAttribute("data-nav");
+            document.querySelectorAll('.seg a[href="#' + s.id + '"], .foot nav a[href="#' + s.id + '"]').forEach(function (a) {
+              if (!a.hasAttribute("data-zh")) a.textContent = label;
+            });
+          });
+          document.querySelectorAll(".table-wrap table").forEach(function (t) {
+            var names = [].map.call(t.querySelectorAll("thead th"), function (th) { return th.textContent.trim(); });
+            t.querySelectorAll("tbody tr").forEach(function (tr) {
+              [].forEach.call(tr.children, function (c, i) {
+                if (c.hasAttribute("data-label") && names[i]) c.setAttribute("data-label", names[i]);
+              });
+            });
+          });
+          postLink.href = "https://x.com/intent/post?text=" + encodeURIComponent(STR[lang].post);
+          btn.textContent = STR[lang].copy;
+          status.textContent = "";
+          pBtn.textContent = STR[lang].pCopy;
+          pStatus.textContent = "";
+          langBtns.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false"); });
+          if (W3) renderWeb3();
+        }
+        var header = document.querySelector(".nav");
+        if (header) {
+          var group = document.createElement("div");
+          group.className = "x-lang";
+          group.setAttribute("role", "group");
+          group.setAttribute("aria-label", "Language / 语言");
+          [["en", "EN", "en"], ["zh", "中文", "zh-Hans"]].forEach(function (d, i) {
+            if (i) {
+              var sep = document.createElement("span");
+              sep.className = "x-lang__sep";
+              sep.setAttribute("aria-hidden", "true");
+              sep.textContent = "|";
+              group.appendChild(sep);
+            }
+            var b = document.createElement("button");
+            b.type = "button";
+            b.dataset.lang = d[0];
+            b.lang = d[2];
+            b.textContent = d[1];
+            b.addEventListener("click", function () { if (lang !== d[0]) applyLang(d[0]); });
+            langBtns.push(b);
+            group.appendChild(b);
+          });
+          header.appendChild(group);
+        }
+        applyLang("en");
+
+        /* One copy helper for the sample post and the agent prompt: clipboard first, textarea fallback. */
+        function wireCopy(button, statusEl, getText, keys) {
+          var settled = false;
+          function done(ok) {
+            var s = STR[lang];
+            statusEl.textContent = ok ? s[keys.ok] : s[keys.fail];
+            button.textContent = ok ? s.copied : s[keys.label];
+            setTimeout(function () { button.textContent = STR[lang][keys.label]; }, 2000);
+          }
+          function fallback() {
+            if (settled) return;
+            settled = true;
+            var ta = document.createElement("textarea");
+            ta.value = getText();
+            ta.setAttribute("readonly", "");
+            ta.style.position = "fixed";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+            var ok = false;
+            try { ok = document.execCommand("copy"); } catch (e) {}
+            document.body.removeChild(ta);
+            done(ok);
+          }
+          button.addEventListener("click", function () {
+            settled = false;
+            button.textContent = STR[lang].copying;
+            statusEl.textContent = STR[lang][keys.busy];
+            if (navigator.clipboard && window.isSecureContext) {
+              navigator.clipboard.writeText(getText()).then(function () { if (!settled) { settled = true; done(true); } }, fallback);
+              setTimeout(fallback, 800);
+            } else {
+              fallback();
+            }
+          });
+        }
+        wireCopy(btn, status, function () { return STR[lang].post; }, { label: "copy", busy: "copyingStatus", ok: "copiedStatus", fail: "failStatus" });
+        wireCopy(pBtn, pStatus, function () { return pText.textContent.trim(); }, { label: "pCopy", busy: "pCopyingStatus", ok: "pCopiedStatus", fail: "pFailStatus" });
+
+        /* ---------- On-chain mint: raw EIP-1193 + JSON-RPC ---------- */
+        var SUPPLY = 1111;
+        var SEL = {
+          totalSupply: "0x18160ddd",
+          free: { open: "0x777fa9ab", minted: "0x389fcf06", mint: "0x7c928fe9", wei: 500000000000000n },
+          paid: { open: "0x4c74f170", minted: "0xe3abce25", mint: "0x65cde733", wei: 1000000000000000n }
+        };
+        var W3 = { provider: null, listened: null, account: null, chainId: null, supply: null, noWallet: false, status: null };
+
+        function word(v) { return BigInt(v).toString(16).padStart(64, "0"); }
+        function addrWord(a) { return a.replace(/^0x/i, "").toLowerCase().padStart(64, "0"); }
+        function toBig(hex) { return hex && hex !== "0x" ? BigInt(hex) : 0n; }
+        function short(a) { return a.slice(0, 4) + "…" + a.slice(-4); }
+        function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+        function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+        var rpcId = 0;
+        async function rpc(method, params) {
+          var res = await fetch(RPC, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ jsonrpc: "2.0", id: ++rpcId, method: method, params: params })
+          });
+          var j = await res.json();
+          if (j.error) throw j.error;
+          return j.result;
+        }
+        function ethCall(data) { return rpc("eth_call", [{ to: CONTRACT, data: data }, "latest"]); }
+
+        /* Live counter and tier status, every 20 seconds */
+        async function refreshChain() {
+          if (!CONTRACT) return;
+          try {
+            var r = await Promise.all([ethCall(SEL.totalSupply), ethCall(SEL.free.open), ethCall(SEL.paid.open)]);
+            W3.supply = Number(toBig(r[0]));
+            TIERS.forEach(function (t) { t.open = toBig(r[t.kind === "free" ? 1 : 2]) !== 0n; });
+          } catch (e) {}
+          renderWeb3();
+        }
+
+        /* Remaining allowance per tier for the connected wallet */
+        async function refreshAllowance() {
+          if (!CONTRACT || !W3.account) return;
+          var acct = W3.account;
+          await Promise.all(TIERS.map(async function (t) {
+            try {
+              var n = Number(toBig(await ethCall(SEL[t.kind].minted + addrWord(acct))));
+              if (W3.account !== acct) return;
+              t.remaining = Math.max(0, t.max - n);
+              t.cap = t.remaining;
+            } catch (e) {}
+          }));
+          renderWeb3();
+        }
+
+        /* Provider detection: BinanceChain first, then window.ethereum (isBinance, then isMetaMask) */
+        function candidates() {
+          var list = [];
+          var bc = window.BinanceChain;
+          if (bc && typeof bc.request === "function") list.push(bc);
+          var eth = window.ethereum;
+          if (eth) {
+            var ps = Array.isArray(eth.providers) && eth.providers.length ? eth.providers : [eth];
+            var pick = ps.find(function (p) { return p.isBinance; }) || ps.find(function (p) { return p.isMetaMask; }) || ps[0];
+            if (pick && typeof pick.request === "function" && list.indexOf(pick) < 0) list.push(pick);
+          }
+          return list;
+        }
+
+        function isReject(e) {
+          return e && (e.code === 4001 || e.code === "ACTION_REJECTED" || /user (rejected|denied|cancel)|rejected by user|cancell?ed/i.test(e.message || ""));
+        }
+
+        function listen(p) {
+          if (W3.listened === p || typeof p.on !== "function") return;
+          W3.listened = p;
+          p.on("accountsChanged", function (accs) {
+            if (W3.provider !== p || !W3.account) return;
+            if (!accs || !accs.length) { disconnect(); return; }
+            W3.account = accs[0];
+            TIERS.forEach(function (t) { t.remaining = null; t.cap = t.max; t.msg = null; });
+            renderWeb3();
+            refreshAllowance();
+          });
+          p.on("chainChanged", function (id) {
+            if (W3.provider !== p) return;
+            W3.chainId = id;
+            renderWeb3();
+          });
+        }
+
+        async function switchChain(p) {
+          try {
+            await p.request({ method: "wallet_switchEthereumChain", params: [{ chainId: CHAIN_ID_HEX }] });
+          } catch (e) {
+            var code = e && (e.code || (e.data && e.data.originalError && e.data.originalError.code));
+            if (code === 4902 || /unrecognized chain|4902/i.test((e && e.message) || "")) {
+              await p.request({
+                method: "wallet_addEthereumChain",
+                params: [{
+                  chainId: CHAIN_ID_HEX,
+                  chainName: "BNB Smart Chain",
+                  nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
+                  rpcUrls: [RPC],
+                  blockExplorerUrls: ["https://bscscan.com"]
+                }]
+              });
+            } else {
+              throw e;
+            }
+          }
+          W3.chainId = await p.request({ method: "eth_chainId" });
+        }
+        function onChain() { return Number(W3.chainId) === Number(CHAIN_ID_HEX); }
+        async function ensureChain() {
+          if (!onChain()) await switchChain(W3.provider);
+          if (!onChain()) throw { code: "wrongNet" };
+        }
+
+        async function connect() {
+          var list = candidates();
+          if (!list.length) { W3.noWallet = true; renderWeb3(); return; }
+          W3.noWallet = false;
+          W3.status = "connecting";
+          renderWeb3();
+          var accs = null, prov = null, lastErr = null;
+          for (var i = 0; i < list.length; i++) {
+            try {
+              accs = await list[i].request({ method: "eth_requestAccounts" });
+              prov = list[i];
+              break;
+            } catch (e) {
+              if (isReject(e)) throw e;
+              lastErr = e;
+            }
+          }
+          if (!prov || !accs || !accs.length) throw lastErr || {};
+          W3.provider = prov;
+          W3.account = accs[0];
+          listen(prov);
+          try { W3.chainId = await prov.request({ method: "eth_chainId" }); } catch (e) {}
+          W3.status = null;
+          renderWeb3();
+          try { await switchChain(prov); } catch (e) {}
+          renderWeb3();
+          refreshAllowance();
+        }
+
+        function disconnect() {
+          W3.account = null;
+          W3.provider = null;
+          W3.chainId = null;
+          W3.status = null;
+          TIERS.forEach(function (t) { t.remaining = null; t.cap = t.max; if (!t.busy) t.msg = null; });
+          renderWeb3();
+        }
+
+        function errKey(e) {
+          if (e && e.code === "wrongNet") return "wrongNet";
+          if (isReject(e)) return "rejected";
+          var txt = [];
+          (function walk(o, d) {
+            if (!o || d > 4) return;
+            if (typeof o === "string") { txt.push(o); return; }
+            if (typeof o === "object") Object.keys(o).forEach(function (k) { walk(o[k], d + 1); });
+          })(e, 0);
+          var m = txt.join(" ").toLowerCase();
+          if (/insufficient funds/.test(m)) return "eFunds";
+          if (/sold ?out|max supply|exceeds? (max )?supply|supply/.test(m)) return "eSold";
+          if (/limit|per wallet|max per|already minted|too many|exceeds/.test(m)) return "eLimit";
+          if (/closed|not open|not active|inactive|paused|not started/.test(m)) return "eClosed";
+          if (/payment|incorrect value|wrong value|price|insufficient value|msg\.value|value/.test(m)) return "ePay";
+          return "eGeneric";
+        }
+
+        async function waitReceipt(hash) {
+          for (var i = 0; i < 120; i++) {
+            await sleep(3000);
+            try {
+              var r = await rpc("eth_getTransactionReceipt", [hash]);
+              if (r) return r;
+            } catch (e) {}
+          }
+          return null;
+        }
+
+        async function mint(t) {
+          if (!CONTRACT || t.busy) return;
+          t.msg = null;
+          try {
+            if (!W3.account) {
+              await connect();
+              if (!W3.account) return;
+            }
+            await ensureChain();
+            await refreshAllowance();
+            if (t.remaining === 0) { t.msg = { k: "eLimit" }; return; }
+            if (t.open === false) { t.msg = { k: "eClosed" }; return; }
+            if (W3.supply != null && W3.supply + t.qty > SUPPLY) { t.msg = { k: "eSold" }; return; }
+            t.busy = true;
+            t.msg = { k: "confirm" };
+            renderWeb3();
+            var s = SEL[t.kind];
+            var hash = await W3.provider.request({
+              method: "eth_sendTransaction",
+              params: [{
+                from: W3.account,
+                to: CONTRACT,
+                data: s.mint + word(t.qty),
+                value: "0x" + (BigInt(t.qty) * s.wei).toString(16)
+              }]
+            });
+            t.msg = { k: "pending", hash: hash };
+            renderWeb3();
+            var r = await waitReceipt(hash);
+            if (!r) t.msg = { k: "slow", hash: hash };
+            else if (r.status === "0x1") t.msg = { k: "success", hash: hash };
+            else t.msg = { k: "failed", hash: hash };
+            refreshChain();
+            refreshAllowance();
+          } catch (e) {
+            W3.status = null;
+            t.msg = { k: errKey(e) };
+          } finally {
+            t.busy = false;
+            renderWeb3();
+          }
+        }
+
+        /* Nav address chip */
+        var navWallet = document.createElement("a");
+        navWallet.className = "x-navwallet";
+        navWallet.href = "#mint";
+        navWallet.hidden = true;
+        if (header) header.insertBefore(navWallet, header.querySelector(".x-lang"));
+
+        var mmLink = "https://metamask.app.link/dapp/" + location.host + location.pathname;
+        document.querySelectorAll("[data-mm]").forEach(function (a) { a.href = mmLink; });
+        if (CONTRACT) document.getElementById("contract-link").href = "https://bscscan.com/address/" + CONTRACT;
+
+        function renderWeb3() {
+          var s = STR[lang];
+          var minted = CONTRACT && W3.supply != null ? Math.min(W3.supply, SUPPLY) : 0;
+          document.getElementById("minted-count").textContent = minted + " / " + SUPPLY;
+          var bar = document.getElementById("minted-bar");
+          bar.setAttribute("aria-valuenow", minted);
+          bar.firstElementChild.style.width = (minted / SUPPLY) * 100 + "%";
+          document.getElementById("contract-note").hidden = !!CONTRACT;
+          document.getElementById("contract-wrap").hidden = !CONTRACT;
+
+          navWallet.hidden = !W3.account;
+          navWallet.textContent = W3.account ? short(W3.account) : "";
+          navWallet.setAttribute("aria-label", W3.account ? W3.account : "");
+
+          var areaMsg = W3.status ? s[W3.status] : W3.account && W3.chainId && !onChain() ? s.wrongNet : "";
+          document.querySelectorAll(".x-w3").forEach(function (a) {
+            a.querySelector("[data-connect]").hidden = !!W3.account;
+            a.querySelector("[data-connect]").disabled = W3.status === "connecting";
+            a.querySelector("[data-acct]").hidden = !W3.account;
+            a.querySelector("[data-addr]").textContent = W3.account ? short(W3.account) : "";
+            a.querySelector("[data-addr]").title = W3.account || "";
+            a.querySelector("[data-nowallet]").hidden = !(W3.noWallet && !W3.account);
+            a.querySelector("[data-w3status]").textContent = areaMsg;
+          });
+
+          TIERS.forEach(function (t) {
+            var pill = t.el.querySelector("[data-tstat]");
+            var live = CONTRACT && t.open === true;
+            pill.textContent = !CONTRACT ? s.soon : t.open == null ? s.checking : t.open ? s.live : s.notOpen;
+            pill.classList.toggle("is-live", !!live);
+
+            var allow = t.el.querySelector("[data-allow]");
+            allow.hidden = !(CONTRACT && W3.account && t.remaining != null);
+            if (!allow.hidden) allow.textContent = t.remaining > 0 ? s.allow.replace("{n}", t.remaining) : s.allowNone;
+
+            t.el.querySelector("[data-mint]").disabled = !CONTRACT || t.busy || t.open === false || (!!W3.account && t.remaining === 0);
+
+            var tx = t.el.querySelector("[data-tx]");
+            var m = t.msg;
+            if (!m) tx.innerHTML = "";
+            else {
+              var link = m.hash ? ' <a class="link" href="https://bscscan.com/tx/' + esc(m.hash) + '" target="_blank" rel="noopener">' + s.viewTx + "</a>" : "";
+              tx.innerHTML = esc(s[m.k] || s.eGeneric) + link;
+            }
+            t.render();
+          });
+        }
+
+        document.querySelectorAll("[data-connect]").forEach(function (b) {
+          b.addEventListener("click", async function () {
+            try { await connect(); }
+            catch (e) { W3.status = null; renderWeb3(); var k = errKey(e); document.querySelectorAll("[data-w3status]").forEach(function (el) { el.textContent = STR[lang][k]; }); }
+          });
+        });
+        document.querySelectorAll("[data-disconnect]").forEach(function (a) {
+          a.addEventListener("click", function (e) { e.preventDefault(); disconnect(); });
+        });
+        TIERS.forEach(function (t) {
+          t.el.querySelector("[data-mint]").addEventListener("click", function () { mint(t); });
+        });
+
+        renderWeb3();
+        if (CONTRACT) {
+          refreshChain();
+          setInterval(refreshChain, 20000);
+        }
+      })();
+    </script>
+  </body>
+</html>
