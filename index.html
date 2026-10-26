@@ -616,10 +616,10 @@
             <h2 data-zh="认领你的节点。">Claim your node.</h2>
           </div>
           <div class="x-tiers">
-            <article class="x-tier" data-tier="free" data-price="0.0005" data-max="4">
+            <article class="x-tier" data-tier="free" data-price="0.0005" data-max="10">
               <div class="x-tier__head">
                 <div class="x-tier__title"><h3 data-zh="免费铸造">Free Mint</h3><span class="x-tstat" data-tstat></span></div>
-                <span class="pill" data-zh="每个钱包最多 4 枚">Max 4 / wallet</span>
+                <span class="pill" data-zh="每个钱包最多 10 枚">Max 10 / wallet</span>
               </div>
               <p class="x-tier__price" data-zh="&lt;b&gt;0.0005 BNB&lt;/b&gt; / 次 &lt;small&gt;只需一点小额费用&lt;/small&gt;"><b>0.0005 BNB</b> per mint <small>Just a tiny fee</small></p>
               <div class="x-stepper" role="group" aria-label="Free Mint quantity" data-zh-aria-label="免费铸造数量">
@@ -632,18 +632,18 @@
               <button class="x-ghost" type="button" disabled data-mint data-zh="免费铸造">Free Mint</button>
               <p class="x-status" data-tx role="status" aria-live="polite"></p>
             </article>
-            <article class="x-tier" data-tier="paid" data-price="0.001" data-max="10">
+            <article class="x-tier" data-tier="paid" data-price="0.005" data-max="10">
               <div class="x-tier__head">
                 <div class="x-tier__title"><h3 data-zh="付费铸造">Paid Mint</h3><span class="x-tstat" data-tstat></span></div>
                 <span class="pill" data-zh="每个钱包最多 10 枚">Max 10 / wallet</span>
               </div>
-              <p class="x-tier__price" data-zh="&lt;b&gt;0.001 BNB&lt;/b&gt; / 次"><b>0.001 BNB</b> per mint</p>
+              <p class="x-tier__price" data-zh="&lt;b&gt;0.005 BNB&lt;/b&gt; / 次"><b>0.005 BNB</b> per mint</p>
               <div class="x-stepper" role="group" aria-label="Paid Mint quantity" data-zh-aria-label="付费铸造数量">
                 <button type="button" class="x-stepper__btn" data-step="-1" aria-label="Decrease" data-zh-aria-label="减少">−</button>
                 <output class="x-stepper__qty" aria-live="polite">1</output>
                 <button type="button" class="x-stepper__btn" data-step="1" aria-label="Increase" data-zh-aria-label="增加">+</button>
               </div>
-              <p class="x-tier__total"><span data-zh="合计">Total</span> <span class="x-tier__calc">1 × 0.001 BNB = <b>0.001 BNB</b></span></p>
+              <p class="x-tier__total"><span data-zh="合计">Total</span> <span class="x-tier__calc">1 × 0.005 BNB = <b>0.005 BNB</b></span></p>
               <p class="fineprint" data-allow hidden></p>
               <button class="x-ghost" type="button" disabled data-mint data-zh="付费铸造">Paid Mint</button>
               <p class="x-status" data-tx role="status" aria-live="polite"></p>
@@ -676,7 +676,7 @@
                 <h4 data-zh="让你的 AI 代理帮你铸造">Ask your AI agent to mint</h4>
                 <button class="x-cta" type="button" id="prompt-btn">Copy mint prompt</button>
               </div>
-              <pre class="x-code" id="agent-prompt" data-zh="在 BNB Chain（链 ID 56）上，从官方 Dark Node 合约（地址将在 X @DarkNode402x 公布）铸造 Dark Node NFT。使用持有我 Binance Agent ID 的钱包。检查铸造时间窗口和我的剩余额度：免费铸造每个 0.0005 BNB，每个钱包最多 4 个；付费铸造每个 0.001 BNB，每个钱包最多 10 个。签名前先向我展示交易预览和总费用，并等待我的确认。完成后从交易回执中告诉我我的 Dark Node 编号。">On BNB Chain (chain ID 56), mint Dark Node NFTs from the official Dark Node contract (address announced on X @DarkNode402x). Use the wallet holding my Binance Agent ID. Check the mint window and my remaining allowance: Free Mint costs 0.0005 BNB each, max 4 per wallet; Paid Mint costs 0.001 BNB each, max 10 per wallet. Show me the transaction preview and total cost, and wait for my confirmation before signing. Then tell me my Dark Node numbers from the receipt.</pre>
+              <pre class="x-code" id="agent-prompt" data-zh="在 BNB Chain（链 ID 56）上，从官方 Dark Node 合约（地址将在 X @DarkNode402x 公布）铸造 Dark Node NFT。使用持有我 Binance Agent ID 的钱包。检查铸造时间窗口和我的剩余额度：免费铸造每个 0.0005 BNB，每个钱包最多 10 个；付费铸造每个 0.005 BNB，每个钱包最多 10 个。签名前先向我展示交易预览和总费用，并等待我的确认。完成后从交易回执中告诉我我的 Dark Node 编号。">On BNB Chain (chain ID 56), mint Dark Node NFTs from the official Dark Node contract (address announced on X @DarkNode402x). Use the wallet holding my Binance Agent ID. Check the mint window and my remaining allowance: Free Mint costs 0.0005 BNB each, max 10 per wallet; Paid Mint costs 0.005 BNB each, max 10 per wallet. Show me the transaction preview and total cost, and wait for my confirmation before signing. Then tell me my Dark Node numbers from the receipt.</pre>
               <p class="x-status" id="prompt-status" role="status" aria-live="polite"></p>
             </div>
           </div>
@@ -691,7 +691,7 @@
               </div>
               <ul class="x-list">
                 <li data-zh="两档合计仅 1111 枚，永不增发。">1111 total across both tiers. No more, ever.</li>
-                <li data-zh="免费铸造每个钱包最多 4 枚，付费铸造最多 10 枚。">Free Mint max 4 per wallet, Paid Mint max 10.</li>
+                <li data-zh="免费铸造和付费铸造每个钱包各最多 10 枚。">Free Mint max 10 per wallet, Paid Mint max 10.</li>
                 <li data-zh="铸造时随机分配系列。">Random series at mint.</li>
                 <li data-zh="Golden Oracle 持有者可获得独家合作权益。">Golden Oracle holders get exclusive collab access.</li>
               </ul>
@@ -755,11 +755,11 @@
           </div>
           <div class="x-faq">
             <details><summary data-zh="总量是多少？">What's the supply?</summary><p data-zh="1111 枚，固定不变。">1111, final.</p></details>
-            <details><summary data-zh="每个钱包能铸造多少？">How many per wallet?</summary><p data-zh="免费铸造最多 4 枚（每次 0.0005 BNB），付费铸造最多 10 枚（每次 0.001 BNB）。">Free Mint max 4 (0.0005 BNB per mint), Paid Mint max 10 (0.001 BNB per mint).</p></details>
+            <details><summary data-zh="每个钱包能铸造多少？">How many per wallet?</summary><p data-zh="免费铸造最多 10 枚（每次 0.0005 BNB），付费铸造最多 10 枚（每次 0.005 BNB）。">Free Mint max 10 (0.0005 BNB per mint), Paid Mint max 10 (0.005 BNB per mint).</p></details>
             <details><summary data-zh="可以自选系列吗？">Can I pick my series?</summary><p data-zh="不可以，铸造时随机分配。">No, it's random at mint.</p></details>
             <details><summary data-zh="Golden Oracle 有什么不同？">What makes Golden Oracle different?</summary><p data-zh="仅 11 枚，传奇 1/1，附带合作权益。">Only 11, legendary 1/1, with collab access.</p></details>
             <details><summary data-zh="什么时候开始铸造？">When is mint?</summary><p data-zh="将在 X @DarkNode402x 公布。">Announced on X @DarkNode402x.</p></details>
-            <details><summary data-zh="价格多少？">Price?</summary><p data-zh="免费铸造每次 0.0005 BNB，付费铸造每次 0.001 BNB，基于 BNB Chain。">Free Mint 0.0005 BNB, Paid Mint 0.001 BNB per mint, on BNB Chain.</p></details>
+            <details><summary data-zh="价格多少？">Price?</summary><p data-zh="免费铸造每次 0.0005 BNB，付费铸造每次 0.005 BNB，基于 BNB Chain。">Free Mint 0.0005 BNB, Paid Mint 0.005 BNB per mint, on BNB Chain.</p></details>
           </div>
         </section>
 
