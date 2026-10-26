@@ -1103,14 +1103,20 @@
 
         var rpcId = 0;
         async function rpc(method, params) {
-          var res = await fetch(RPC, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ jsonrpc: "2.0", id: ++rpcId, method: method, params: params })
-          });
-          var j = await res.json();
-          if (j.error) throw j.error;
-          return j.result;
+          var urls = ["https://bsc-rpc.publicnode.com", "https://bsc-dataseed.bnbchain.org", RPC, "https://bsc.drpc.org"], last = null;
+          for (var u = 0; u < urls.length; u++) {
+            try {
+              var res = await fetch(urls[u], {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ jsonrpc: "2.0", id: ++rpcId, method: method, params: params })
+              });
+              var j = await res.json();
+              if (j.error) { if (method === "eth_call") throw j.error; last = j.error; continue; }
+              return j.result;
+            } catch (e) { last = e; if (e && e.code !== undefined && method === "eth_call" && e.message && /revert/i.test(e.message)) throw e; }
+          }
+          throw last || {};
         }
         function ethCall(data) { return rpc("eth_call", [{ to: CONTRACT, data: data }, "latest"]); }
 
@@ -1143,6 +1149,8 @@
         /* Provider detection: BinanceChain first, then window.ethereum (isBinance, then isMetaMask) */
         function candidates() {
           var list = [];
+          var okx = window.okxwallet;
+          if (okx && typeof okx.request === "function") list.push(okx);
           var bc = window.BinanceChain;
           if (bc && typeof bc.request === "function") list.push(bc);
           var eth = window.ethereum;
