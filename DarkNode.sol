@@ -3,8 +3,8 @@ pragma solidity ^0.8.24;
 
 /*
     Dark Node — 1111 oracle NFTs on BNB Chain
-    Free Mint : 0.0005 BNB each, max 4 per wallet
-    Paid Mint : 0.001  BNB each, max 10 per wallet
+    Free Mint : 0.0005 BNB each, max 10 per wallet
+    Paid Mint : 0.005  BNB each, max 10 per wallet
     Shared supply: 1111
 */
 
@@ -20,9 +20,9 @@ contract DarkNode is ERC721, ERC2981, Ownable, ReentrancyGuard {
     uint256 public constant MAX_SUPPLY = 1111;
 
     uint256 public constant FREE_PRICE = 0.0005 ether; // 0.0005 BNB
-    uint256 public constant FREE_MAX_PER_WALLET = 4;
+    uint256 public constant FREE_MAX_PER_WALLET = 10;
 
-    uint256 public constant PAID_PRICE = 0.001 ether;  // 0.001 BNB
+    uint256 public constant PAID_PRICE = 0.005 ether;  // 0.005 BNB
     uint256 public constant PAID_MAX_PER_WALLET = 10;
 
     uint256 public totalSupply;
