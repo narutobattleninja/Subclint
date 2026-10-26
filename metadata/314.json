@@ -1,0 +1,35 @@
+{
+ "name": "Dark Node #314",
+ "description": "Dark Node: 1111 oracles on BNB Chain. Every node has a keeper.",
+ "image": "https://darknode.fun/images/314.jpg",
+ "attributes": [
+  {
+   "trait_type": "Series",
+   "value": "Golden Oracle"
+  },
+  {
+   "trait_type": "Glow",
+   "value": "Shifted Cool"
+  },
+  {
+   "trait_type": "Background",
+   "value": "Starfield"
+  },
+  {
+   "trait_type": "Aura",
+   "value": "Inner Glow"
+  },
+  {
+   "trait_type": "Mood",
+   "value": "Balanced"
+  },
+  {
+   "trait_type": "Pose",
+   "value": "Mirrored"
+  },
+  {
+   "trait_type": "Rarity",
+   "value": "Legendary 1/1"
+  }
+ ]
+}
