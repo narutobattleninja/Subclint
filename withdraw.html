@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dark Node · Withdraw</title>
+<style>body{background:#0b0a08;color:#e8dcb5;font-family:system-ui,sans-serif;max-width:480px;margin:40px auto;padding:0 18px}h1{color:#d4af37;font-size:22px}button{width:100%;padding:16px;margin:10px 0;border:1px solid #d4af37;background:#1a160c;color:#f3e3a0;font-size:16px;border-radius:10px}button:disabled{opacity:.4}code{word-break:break-all;color:#bfa95a}#log{white-space:pre-wrap;font-size:14px;margin-top:14px}</style></head><body>
+<h1>Dark Node · Withdraw</h1>
+<p>Kontrak: <code>0x685d6823b1d9a4e4d8454480603c2bb9f158284c</code></p>
+<p>Saldo kontrak: <b id="bal">…</b> BNB</p>
+<button id="c">1. Connect wallet owner</button>
+<button id="w" disabled>2. Withdraw semua BNB</button>
+<div id="log"></div>
+<script>
+const C="0x685d6823b1d9a4e4d8454480603c2bb9f158284c",OWNER="0x7ad46465297609aefb4682247ac3ef9b8df3059d";
+const $=i=>document.getElementById(i),log=m=>$("log").textContent=m;let P,me;
+const getP=()=>window.okxwallet||window.ethereum;
+async function bal(){try{const r=await fetch("https://bsc-rpc.publicnode.com",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_getBalance",params:[C,"latest"]})}).then(r=>r.json());$("bal").textContent=(parseInt(r.result,16)/1e18).toFixed(5)}catch(e){$("bal").textContent="?"}}bal();
+$("c").onclick=async()=>{try{P=getP();if(!P)return log("Wallet tidak ditemukan. Buka halaman ini di browser/Discover OKX Wallet atau MetaMask.");me=(await P.request({method:"eth_requestAccounts"}))[0];let cid=await P.request({method:"eth_chainId"});if(cid!=="0x38"){await P.request({method:"wallet_switchEthereumChain",params:[{chainId:"0x38"}]})}
+if(me.toLowerCase()!==OWNER){log("Wallet terhubung: "+me+"\nIni BUKAN wallet owner. Ganti ke 0x7ad4…059d lalu Connect lagi.");return}
+$("w").disabled=false;log("Terhubung sebagai owner ✓")}catch(e){log("Error: "+(e.message||e.code))}};
+$("w").onclick=async()=>{try{log("Konfirmasi di wallet…");const tx=await P.request({method:"eth_sendTransaction",params:[{from:me,to:C,data:"0x3ccfd60b",value:"0x0"}]});log("Terkirim ✓\nTx: "+tx+"\nhttps://bscscan.com/tx/"+tx);setTimeout(bal,8000)}catch(e){log("Error: "+(e.message||e.code))}};
+</script></body></html>
